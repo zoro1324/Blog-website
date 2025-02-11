@@ -1,0 +1,61 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row d-flex justify-content-center mt-5">
+        <div class="col-4">
+
+            {% if messages %}
+            
+            <div class="container mt-3">
+                <div class="d-flex justify-content-center">
+                    <div class="alert alert-success alert-dismissible fade show" role="alert"> 
+                        {% for message in messages %} {{message}} {% endfor %} <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div> 
+
+            {% endif %}
+
+            <h3>Login</h3>
+            <div class="my-3">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="username" class="form-label">Username</label>
+                        {% if form.username.errors %}
+                            {% for error in form.username.errors %}
+                                <span class="text-danger">{{error}}</span>
+                            {% endfor %}
+                        {% endif %}
+                        <input type="text" class="form-control" id="username" name="username" value={{form.username.value|default:""}}>
+                    </div>
+                   
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        {% if form.password.errors %}
+                            {% for error in form.password.errors %}
+                                <span class="text-danger">{{error}}</span>
+                            {% endfor %}
+                        {% endif %}
+                        <input type="password" class="form-control" id="password" name="password">
+                    </div>
+                    {% if form.non_field_errors %}
+                        {% for error in form.non_field_errors %}
+                            <span class="text-danger">{{error}}</span>
+                        {% endfor %}
+                    {% endif %}
+                    <div class="my-3 d-flex justify-content-between">
+                        <a href="/password_reset">Forgot Password</a>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+
