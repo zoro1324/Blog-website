@@ -1,0 +1,61 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+<div class="container-fluid ">
+    <div class="d-flex justify-content-center mt-5">
+        <div class="d-flex gap-3 flex-column">
+            <h3>Contact Form</h3>
+            <form method="post" class="row g-3">
+                {% csrf_token %}
+                <div class="col-md-6">
+                    <label for="name" class="form-label" >Name</label>
+                    <input type="text" class="form-control" id="name" name="name" value={{name}}>
+                    {% if form.name.errors %}
+                        <div class="col-12">
+                            <span class="text-danger">{{form.name.errors}}</span>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-md-6">
+                    <label for="email" class="form-label" >Email</label>
+                    <input type="email" class="form-control" id="email" name="email" value={{email}}>
+                    {% if form.email.errors %}
+                        <div class="col-12">
+                            <span class="text-danger">{{form.email.errors}}</span>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-12">
+                    <label for="message" class="form-label ">Message</label>
+                    <textarea class="form-control" id="message" name="message" rows="4" value={{message}}></textarea>
+                    {% if form.message.errors %}
+                        <div class="col-12">
+                            <span class="text-danger">{{form.message.errors}}</span>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+</div>
+
+{% if valid_form %}
+
+
+    
+
+    <div class="alert alert-success text-center" role="alert">
+      Your response has been recorded.
+    </div>
+  
+    
+
+
+{% endif %}
+
+{% endblock content %}
+    

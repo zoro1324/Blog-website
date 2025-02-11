@@ -1,0 +1,48 @@
+from django.shortcuts import render,redirect
+from django.urls import reverse
+from django.http import Http404
+from .models import Post,AboutUs
+from django.core.paginator import Paginator
+from .forms import ContactForm
+
+
+# Create your views here.
+
+def rediret_to_index(request):
+    return redirect(reverse("blog:index"))
+
+def index(request):
+    posts = Post.objects.all()
+    paginator = Paginator(posts,9)
+    page_num = request.GET.get("page")
+    page_obj = paginator.get_page(page_num)
+    
+
+    return render(request,"blog/index.html",{"title":"Home Page","page_obj":page_obj})
+
+def detail(request,slug):
+    try:
+        data = Post.objects.get(slug=slug)
+        related_posts = Post.objects.filter(catagory = data.catagory )
+    except Post.DoesNotExist:
+        raise Http404("Page does not exist")
+    return render(request,"blog/detail.html",{"post":data,"related_posts":related_posts})
+
+
+def contact(request):
+    if request.method == "POST":
+        form = ContactForm(request.POST)
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        message = request.POST.get('message')
+        if form.is_valid():
+            valid_form = True
+            return render(request,"blog/contact.html",{"valid_form":valid_form})
+        return render(request,"blog/contact.html",{"form":form,"name":name,"email":email,"message":message})
+    
+    return render(request,"blog/contact.html",{"title":"Contact Us"})
+
+
+def about(request):
+    data = AboutUs.objects.first()
+    return render(request,"blog/aboutus.html",{"data":data,"title":"About Us"})
