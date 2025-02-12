@@ -3,9 +3,16 @@ from django.urls import reverse
 from django.http import Http404
 from .models import Post,AboutUs
 from django.core.paginator import Paginator
-from .forms import ContactForm,RegisterForm,LoginForm
+from .forms import ContactForm,RegisterForm,LoginForm,ForgotPasswordForm
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
+from django.contrib.auth.models import User
+from django.template.loader import render_to_string
+from django.contrib.sites.shortcuts import get_current_site
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
+from django.core.mail import send_mail
 
 # Create your views here.
 
@@ -89,3 +96,31 @@ def dashboard(request):
 def logout_view(request):
     logout(request)
     return redirect("blog:index")
+
+
+def forgotpassword(request):
+
+    form = ForgotPasswordForm()
+
+    if request.method == 'POST':
+
+        form = ForgotPasswordForm(request.POST)
+
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            user = User.objects.get(email=email)
+            subject = "Password Change request"
+            current_site = get_current_site(request)
+            
+            domain = current_site.domain
+            token = default_token_generator.make_token(user)
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            message = render_to_string("blog/email.html",{"domain":domain,"uid":uid,"token":token})
+            
+            send_mail(subject,message,"noreply@zoro.com",[email])
+            messages.success(request,"Email sent")
+    return render(request,"blog/forgotpassword.html",{'title':"Forgot Password","form":form})
+
+
+def resetpassword(request):
+    pass

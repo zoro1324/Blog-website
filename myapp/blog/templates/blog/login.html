@@ -41,13 +41,9 @@
                         {% endif %}
                         <input type="password" class="form-control" id="password" name="password">
                     </div>
-                    {% if form.non_field_errors %}
-                        {% for error in form.non_field_errors %}
-                            <span class="text-danger">{{error}}</span>
-                        {% endfor %}
-                    {% endif %}
+                    {% include "blog/includes/nonfeilderrors.html" %}
                     <div class="my-3 d-flex justify-content-between">
-                        <a href="/password_reset">Forgot Password</a>
+                        <a href="{% url "blog:forgotpassword" %}">Forgot Password</a>
                         <button type="submit" class="btn btn-primary">Login</button>
                     </div>
                 </form>

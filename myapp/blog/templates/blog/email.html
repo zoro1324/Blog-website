@@ -1,0 +1,10 @@
+
+{% autoescape off %}
+
+ Hello user, 
+
+    This email is to redirect you to the password change page.
+
+redirect url :
+    http://{{domain}}{% url "blog:resetpassword" uidb64=uid token=token%}"
+{% endautoescape %}
