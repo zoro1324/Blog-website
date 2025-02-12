@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.http import Http404
 from .models import Post,AboutUs
 from django.core.paginator import Paginator
-from .forms import ContactForm,RegisterForm,LoginForm,ForgotPasswordForm
+from .forms import ContactForm,RegisterForm,LoginForm,ForgotPasswordForm,ResetPasswordForm
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -11,7 +11,7 @@ from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_base64_encode
+from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
 from django.core.mail import send_mail
 
 # Create your views here.
@@ -118,9 +118,28 @@ def forgotpassword(request):
             message = render_to_string("blog/email.html",{"domain":domain,"uid":uid,"token":token})
             
             send_mail(subject,message,"noreply@zoro.com",[email])
-            messages.success(request,"Email sent")
+            messages.success(request,"Verification Email has been sent your mail")
     return render(request,"blog/forgotpassword.html",{'title':"Forgot Password","form":form})
 
 
-def resetpassword(request):
-    pass
+def resetpassword(request,uidb64,token):
+    form = ResetPasswordForm()
+    if request.method == "POST":
+        form = ResetPasswordForm(request.POST)
+        
+        if form.is_valid():
+            new_pass = form.cleaned_data['new_password']
+            try:
+                pk = urlsafe_base64_decode(uidb64)
+                user = User.objects.get(pk=pk)
+            except:
+                user = None
+
+            if user is not None and default_token_generator.check_token(user,token):
+                user.set_password(new_pass)
+                user.save()
+                messages.success(request,"Your password has been successfully updated.")
+            else:
+                messages.error(request,"Your redirect link has been expired")
+
+    return render(request,"blog/resetpassword.html",{"title":"Reset password",'form':form})

@@ -52,5 +52,19 @@ class ForgotPasswordForm(forms.Form):
 
         email = cleaned_data.get("email")
 
-        if User.objects.filter(email = email).exists:
-            pass
+        if not User.objects.filter(email = email).exists:
+
+            raise forms.ValidationError("Invalid email")
+        
+
+class ResetPasswordForm(forms.Form):
+    new_password = forms.CharField(max_length=20,label="New password",required=True)
+    confirm_password = forms.CharField(max_length=20,label="Confirm password",required=True)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        new_password = cleaned_data.get('new_password')
+        confirm_password = cleaned_data.get('confirm_password')
+
+        if new_password and confirm_password and new_password != confirm_password:
+            raise forms.ValidationError("Password Doesn't match")
