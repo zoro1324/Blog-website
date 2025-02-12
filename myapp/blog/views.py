@@ -4,7 +4,7 @@ from django.http import Http404
 from .models import Post,AboutUs
 from django.core.paginator import Paginator
 from .forms import ContactForm,RegisterForm,LoginForm
-from django.contrib.auth import authenticate,login
+from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 
 # Create your views here.
@@ -84,3 +84,8 @@ def login_view(request):
 
 def dashboard(request):
     return render(request,"blog/dashboard.html",{"title":"Dashboard"})
+
+
+def logout_view(request):
+    logout(request)
+    return redirect("blog:index")
