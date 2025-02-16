@@ -1,9 +1,9 @@
 from django.shortcuts import render,redirect
 from django.urls import reverse
 from django.http import Http404
-from .models import Post,AboutUs
+from .models import Catagory, Post,AboutUs
 from django.core.paginator import Paginator
-from .forms import ContactForm,RegisterForm,LoginForm,ForgotPasswordForm,ResetPasswordForm
+from .forms import ContactForm,RegisterForm,LoginForm,ForgotPasswordForm,ResetPasswordForm,NewPostForms
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -90,7 +90,12 @@ def login_view(request):
 
 
 def dashboard(request):
-    return render(request,"blog/dashboard.html",{"title":"Dashboard"})
+
+    posts = Post.objects.filter(user = request.user)
+    paginator = Paginator(posts,3)
+    current_page  = request.GET.get('page')
+    page_obj = paginator.get_page(current_page)
+    return render(request,"blog/dashboard.html",{"title":"Dashboard","page_obj":page_obj,'user':request.user})
 
 
 def logout_view(request):
@@ -143,3 +148,19 @@ def resetpassword(request,uidb64,token):
                 messages.error(request,"Your redirect link has been expired")
 
     return render(request,"blog/resetpassword.html",{"title":"Reset password",'form':form})
+
+
+
+def newpost(request):
+    form = NewPostForms()
+    catagories = Catagory.objects.all()
+    if request.method == "POST":
+        form = NewPostForms(request.POST, request.FILES)
+        
+        
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.user = request.user
+            post.save()
+            return redirect(reverse('blog:dashboard'))
+    return render(request,"blog/newpost.html",{'title':'New Post','catagories':catagories,'form':form})

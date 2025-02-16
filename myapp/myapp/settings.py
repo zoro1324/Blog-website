@@ -143,3 +143,8 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "e8a0d62012f050"
 
 EMAIL_HOST_PASSWORD = "ffb8d6e135b9b2"
+
+import os
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR , 'media')

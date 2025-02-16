@@ -1,0 +1,49 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row d-flex justify-content-center mt-5">
+        <div class="col-4">
+            <h3>New Post</h3>
+            <div class="my-3">
+                <form method="post" enctype="multipart/form-data">
+
+                    {% csrf_token %}
+                    <div class="form-group" >
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control" name="title" id="title" value="{{form.title.value|default:""}}">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="content" class="form-label">Content</label>
+                        <textarea class="form-control" id="content" name="content" value = "{{form.content.value|default:""}}"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="image" class="form-label">Image</label>
+                        <input type="file" class="form-control-file" name="image" id='image' >
+                       
+                    </div>
+                    <div class="form-group">
+                        <label for="catagory" class="form-label">Category</label>
+                        <select class="form-control" id="catagory" name="catagory">
+                            <option value="">Select</option>
+                            {% for catagory in catagories %}
+
+                            <option value="{{catagory.id}}">{{catagory.catagory_name}}</option>
+                            
+                            {% endfor %}
+                        </select>
+                    </div>
+                   
+                    <div class="my-3 d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+

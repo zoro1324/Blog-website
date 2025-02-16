@@ -15,4 +15,5 @@ urlpatterns = [
     path("logout/",views.logout_view,name="logout"),
     path("forgotpassword/",views.forgotpassword,name="forgotpassword"),
     path("resetpassword/<uidb64>/<token>",views.resetpassword,name="resetpassword"),
+    path('newpost/',views.newpost,name="newpost")
 ]

@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
+from .models import Catagory, Post
 
 
 class ContactForm(forms.Form):
@@ -68,3 +69,30 @@ class ResetPasswordForm(forms.Form):
 
         if new_password and confirm_password and new_password != confirm_password:
             raise forms.ValidationError("Password Doesn't match")
+        
+
+
+class NewPostForms(forms.ModelForm):
+    title = forms.CharField(max_length=30,required=True)
+    content = forms.CharField(required=True)
+    
+    catagory = forms.ModelChoiceField(required=True,queryset=Catagory.objects.all())
+    image = forms.ImageField(required=True) 
+    class Meta:
+        model = Post
+
+        fields = ['title','content','catagory','image']
+
+    def save(self, commit = ...):
+        post = super().save(commit)
+        cleaned_data = super().clean()
+        if cleaned_data.get('image'):
+            post.image = cleaned_data.get('image')
+        else:
+            image = "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930"
+            post.image = image
+        if commit:
+            post.save()
+        return post
+
+
