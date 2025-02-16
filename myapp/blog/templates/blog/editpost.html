@@ -13,9 +13,9 @@
                     <div class="form-group" >
                         <label for="title" class="form-label">Title</label>
                         <input type="text" class="form-control" name="title" id="title" value="{{post.title|default:""}}">
-                        {% if post.title.errors %}
-                            {% for error in post.title.errors %}
-                                {{error}}
+                        {% if form.title.errors %}
+                            {% for error in form.title.errors %}
+                                <span class="text-danger">{{error}}</span>
                             {% endfor %}
                         {% endif %}
                     </div>
@@ -23,9 +23,9 @@
                     <div class="form-group">
                         <label for="content" class="form-label">Content</label>
                         <textarea class="form-control" id="content" name="content">{{post.content}}</textarea>
-                        {% if post.content.errors %}
-                            {% for error in post.content.errors %}
-                                {{error}}
+                        {% if form.content.errors %}
+                            {% for error in form.content.errors %}
+                                <span class="text-danger">{{error}}</span>
                             {% endfor %}
                         {% endif %}
                     </div>
