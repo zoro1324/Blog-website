@@ -162,6 +162,7 @@ def newpost(request):
             post = form.save(commit=False)
             post.user = request.user
             post.save()
+            messages.success(request,"New Post has been created.")
             return redirect(reverse('blog:dashboard'))
     return render(request,"blog/newpost.html",{'title':'New Post','catagories':catagories,'form':form})
 
@@ -175,5 +176,12 @@ def editpost(request,slug):
         if form.is_valid():
             post = form.save(commit=False)
             post.save()
+            messages.success(request,"Post has been updated!")
             return redirect(reverse("blog:dashboard"))
     return render(request,"blog/editpost.html",{"post":post,"catagories":catagories,"form":form})
+
+
+def deletepost(request,slug):
+    post = get_object_or_404(Post,slug=slug)
+    post.delete()
+    return redirect(reverse('blog:dashboard'))

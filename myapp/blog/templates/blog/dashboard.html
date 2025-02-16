@@ -19,7 +19,7 @@
     </div>
     <div class="row d-flex justify-content-center">
       <div class="col-6">
-          [ERRORS]
+          {% include "blog/includes/messages.html" %}
       </div>
     </div>
     <div class="row">
@@ -48,8 +48,10 @@
                         </div>
                         <div class="d-flex justify-content-between mt-3">
                         <a class="btn btn-info btn-sm text-light" href="{% url "blog:editpost" slug=post.slug %}">Edit Post</a>
-                        <a class="btn btn-danger btn-sm text-light" href="[DELETE POST URL]">Delete Post</a>
-                        <a class="btn btn-success btn-sm text-light" href="[PUBLISH POST URL]">Publish Post</a>
+                        <button class="btn btn-danger btn-sm text-light" 
+                        onclick="confirmDelete(`{% url 'blog:deletepost' slug=post.slug %}`)">
+                            Delete Post
+                        </button>                        <a class="btn btn-success btn-sm text-light" href="[PUBLISH POST URL]">Publish Post</a>
                         <label class="text-danger">Not Published</label>
                         </div>
                     </div>
@@ -61,6 +63,15 @@
     </div>
   </div>
 </div>
+
+<script>
+    function confirmDelete(url) {
+        let confirmAction = confirm("Do you really want to delete this post?");
+        if (confirmAction) {
+            window.location.href = url;
+        }
+    }
+</script>
 
 {% endblock content %}
 
