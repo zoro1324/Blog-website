@@ -35,7 +35,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-4">
-                                <img style="height:300; width:300;" src="{{post.image}}" class="img-fluid" alt="...">
+                                <img style="height:300; width:300;" src="{{post.formeted_image}}" class="img-fluid" alt="...">
                             </div>
                             <div class="col-md-8">
                                 <h5 class="card-title">{{post.title}}</h5>
@@ -47,7 +47,7 @@
                             </div>
                         </div>
                         <div class="d-flex justify-content-between mt-3">
-                        <a class="btn btn-info btn-sm text-light" href="[EDIT POST URL]">Edit Post</a>
+                        <a class="btn btn-info btn-sm text-light" href="{% url "blog:editpost" slug=post.slug %}">Edit Post</a>
                         <a class="btn btn-danger btn-sm text-light" href="[DELETE POST URL]">Delete Post</a>
                         <a class="btn btn-success btn-sm text-light" href="[PUBLISH POST URL]">Publish Post</a>
                         <label class="text-danger">Not Published</label>

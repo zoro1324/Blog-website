@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.urls import reverse
 from django.http import Http404
 from .models import Catagory, Post,AboutUs
@@ -164,3 +164,16 @@ def newpost(request):
             post.save()
             return redirect(reverse('blog:dashboard'))
     return render(request,"blog/newpost.html",{'title':'New Post','catagories':catagories,'form':form})
+
+
+def editpost(request,slug):
+    catagories = Catagory.objects.all()
+    post = get_object_or_404(Post,slug=slug)
+    form = NewPostForms()
+    if request.method == 'POST':
+        form = NewPostForms(request.POST,request.FILES,instance=post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.save()
+            return redirect(reverse("blog:dashboard"))
+    return render(request,"blog/editpost.html",{"post":post,"catagories":catagories,"form":form})

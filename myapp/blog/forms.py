@@ -77,7 +77,7 @@ class NewPostForms(forms.ModelForm):
     content = forms.CharField(required=True)
     
     catagory = forms.ModelChoiceField(required=True,queryset=Catagory.objects.all())
-    image = forms.ImageField(required=True) 
+    image = forms.ImageField(required=False) 
     class Meta:
         model = Post
 

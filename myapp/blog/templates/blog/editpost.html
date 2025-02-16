@@ -8,11 +8,11 @@
             <h3>New Post</h3>
             <div class="my-3">
                 <form method="post" enctype="multipart/form-data">
-
+                    
                     {% csrf_token %}
                     <div class="form-group" >
                         <label for="title" class="form-label">Title</label>
-                        <input type="text" class="form-control" name="title" id="title" value="{{form.title.value|default:""}}">
+                        <input type="text" class="form-control" name="title" id="title" value="{{post.title|default:""}}">
                         {% if post.title.errors %}
                             {% for error in post.title.errors %}
                                 {{error}}
@@ -22,7 +22,7 @@
                     
                     <div class="form-group">
                         <label for="content" class="form-label">Content</label>
-                        <textarea class="form-control" id="content" name="content" value = "{{form.content.value|default:""}}"></textarea>
+                        <textarea class="form-control" id="content" name="content">{{post.content}}</textarea>
                         {% if post.content.errors %}
                             {% for error in post.content.errors %}
                                 {{error}}
@@ -37,7 +37,7 @@
                     <div class="form-group">
                         <label for="catagory" class="form-label">Category</label>
                         <select class="form-control" id="catagory" name="catagory">
-                            <option value="">Select</option>
+                            <option value="{{post.catagory.id}}">{{post.catagory}}</option>
                             {% for catagory in catagories %}
 
                             <option value="{{catagory.id}}">{{catagory.catagory_name}}</option>
@@ -47,8 +47,7 @@
                     </div>
                    
                     <div class="my-3 d-flex justify-content-end">
-                    {% include "blog/includes/nonfeilderrrors.html" %}
-                        <button type="submit" class="btn btn-primary">Create</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
                     </div>
                 </form>
             </div>
