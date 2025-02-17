@@ -13,14 +13,14 @@ from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
 from django.core.mail import send_mail
-
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def rediret_to_index(request):
     return redirect(reverse("blog:index"))
 
 def index(request):
-    posts = Post.objects.all()
+    posts = Post.objects.filter(is_published = True)
     paginator = Paginator(posts,9)
     page_num = request.GET.get("page")
     page_obj = paginator.get_page(page_num)
@@ -88,7 +88,7 @@ def login_view(request):
 
     return render(request,"blog/login.html",{"title":"Log in","form":form})
 
-
+@login_required
 def dashboard(request):
 
     posts = Post.objects.filter(user = request.user)
@@ -127,6 +127,7 @@ def forgotpassword(request):
     return render(request,"blog/forgotpassword.html",{'title':"Forgot Password","form":form})
 
 
+
 def resetpassword(request,uidb64,token):
     form = ResetPasswordForm()
     if request.method == "POST":
@@ -150,7 +151,7 @@ def resetpassword(request,uidb64,token):
     return render(request,"blog/resetpassword.html",{"title":"Reset password",'form':form})
 
 
-
+@login_required
 def newpost(request):
     form = NewPostForms()
     catagories = Catagory.objects.all()
@@ -166,7 +167,7 @@ def newpost(request):
             return redirect(reverse('blog:dashboard'))
     return render(request,"blog/newpost.html",{'title':'New Post','catagories':catagories,'form':form})
 
-
+@login_required
 def editpost(request,slug):
     catagories = Catagory.objects.all()
     post = get_object_or_404(Post,slug=slug)
@@ -180,8 +181,16 @@ def editpost(request,slug):
             return redirect(reverse("blog:dashboard"))
     return render(request,"blog/editpost.html",{"post":post,"catagories":catagories,"form":form})
 
-
+@login_required
 def deletepost(request,slug):
     post = get_object_or_404(Post,slug=slug)
     post.delete()
     return redirect(reverse('blog:dashboard'))
+
+@login_required
+def publishpost(request,slug):
+    post = get_object_or_404(Post,slug = slug)
+    post.is_published = True
+    post.save()
+    messages.success(request,"Post has been Published.")
+    return redirect(reverse("blog:dashboard"))

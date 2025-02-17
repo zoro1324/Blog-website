@@ -18,6 +18,7 @@ class Post(models.Model):
     slug = models.SlugField(unique=True)
     catagory = models.ForeignKey(Catagory,on_delete=models.CASCADE)
     user = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
+    is_published = models.BooleanField(default=False)
 
     
     

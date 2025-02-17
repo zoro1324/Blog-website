@@ -51,8 +51,11 @@
                         <button class="btn btn-danger btn-sm text-light" 
                         onclick="confirmDelete(`{% url 'blog:deletepost' slug=post.slug %}`)">
                             Delete Post
-                        </button>                        <a class="btn btn-success btn-sm text-light" href="[PUBLISH POST URL]">Publish Post</a>
-                        <label class="text-danger">Not Published</label>
+                        </button>                        
+                        {% if not post.is_published %}
+                            <button class="btn btn-success btn-sm text-light" onclick="confirmPublish(`{% url "blog:publishpost" slug=post.slug %}`)">Publish Post</button>
+                            <label class="text-danger">Not Published</label>
+                        {% endif %}
                         </div>
                     </div>
                 </div>
@@ -66,6 +69,12 @@
 
 <script>
     function confirmDelete(url) {
+        let confirmAction = confirm("Do you really want to delete this post?");
+        if (confirmAction) {
+            window.location.href = url;
+        }
+    }
+    function confirmPublish(url) {
         let confirmAction = confirm("Do you really want to delete this post?");
         if (confirmAction) {
             window.location.href = url;

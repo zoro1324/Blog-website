@@ -10,10 +10,10 @@ class RedirectAuthUserMiddleware:
 
     def __call__(self,request):
         
-        
-
         if request.user.is_authenticated:
-            invalid_urls = [reverse("blog:login"),reverse("blog:register")]
+            invalid_urls = [reverse("blog:login"),
+                            reverse("blog:register"),
+                            ]
             if request.path in invalid_urls:
 
                 return redirect(reverse('blog:index'))
@@ -29,7 +29,11 @@ class RedirectNonAuthUser:
         self.get_response = get_response
 
     def __call__(self,request):
-        invalid_urls = [reverse("blog:dashboard"),reverse("blog:logout")]
+        invalid_urls = [
+            reverse("blog:dashboard"),
+            reverse("blog:logout"),
+            
+            ]
 
         if not request.user.is_authenticated:
             if request.path in invalid_urls:

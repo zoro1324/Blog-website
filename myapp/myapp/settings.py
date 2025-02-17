@@ -144,6 +144,8 @@ EMAIL_HOST_USER = "e8a0d62012f050"
 
 EMAIL_HOST_PASSWORD = "ffb8d6e135b9b2"
 
+LOGIN_URL = '/login'
+
 import os
 
 MEDIA_URL = '/media/'
