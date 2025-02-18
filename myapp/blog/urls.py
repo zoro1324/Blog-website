@@ -19,4 +19,5 @@ urlpatterns = [
     path('editpost/<str:slug>',views.editpost,name="editpost"),
     path('deletepost/<str:slug>',views.deletepost,name="deletepost"),
     path('publishpost/<str:slug>',views.publishpost,name="publishpost"),
+    path('search_post/',views.search_post,name="search"),
 ]

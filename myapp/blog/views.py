@@ -22,12 +22,22 @@ def rediret_to_index(request):
     return redirect(reverse("blog:index"))
 
 def index(request):
-    posts = Post.objects.filter(is_published = True)
+
+    search = request.GET.get('query','')
+    if search:
+        
+        posts = Post.objects.filter(is_published = True,title__icontains = search)
+        if not posts:
+            messages.warning(request,"No such Post Exist")
+            print("IF")
+
+    else:
+        posts = Post.objects.filter(is_published = True)
+        
+        
     paginator = Paginator(posts,6)
     page_num = request.GET.get("page")
     page_obj = paginator.get_page(page_num)
-    
-
     return render(request,"blog/index.html",{"title":"Home Page","page_obj":page_obj})
 
 def detail(request,slug):
@@ -206,3 +216,6 @@ def publishpost(request,slug):
     post.save()
     messages.success(request,"Post has been Published.")
     return redirect(reverse("blog:dashboard"))
+
+def search_post(request):
+    pass
