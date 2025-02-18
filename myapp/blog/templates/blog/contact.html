@@ -4,7 +4,7 @@
 <div class="container-fluid ">
     <div class="d-flex justify-content-center mt-5">
         <div class="d-flex gap-3 flex-column">
-            <h3>Contact Form</h3>
+            <h3>Contact Us</h3>
             <form method="post" class="row g-3">
                 {% csrf_token %}
                 <div class="col-md-6">
@@ -43,13 +43,7 @@
     
 </div>
 
-{% if valid_form %}
-
-    <div class="alert alert-success text-center" role="alert">
-      Your response has been recorded.
-    </div>
-  
-{% endif %}
+{% include "blog/includes/messages.html" %}
 
 {% endblock content %}
     

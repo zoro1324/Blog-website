@@ -5,7 +5,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         Catagory.objects.all().delete()
-        catagories = ["Food","Artificial Inteligence","Sports","Data Science","Technology"]
+        catagories = ["Anime","Movies","Games","Sports","Technology"]
         for catagory in catagories:
             Catagory.objects.create(catagory_name = catagory)
 

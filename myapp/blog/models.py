@@ -15,7 +15,7 @@ class Post(models.Model):
     content = models.CharField(max_length=3000)
     image = models.ImageField(null=True,upload_to="post/images")
     created_at = models.DateTimeField(auto_now_add=True)
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(unique=True,max_length=300)
     catagory = models.ForeignKey(Catagory,on_delete=models.CASCADE)
     user = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
     is_published = models.BooleanField(default=False)
@@ -42,4 +42,19 @@ class Post(models.Model):
 
 class AboutUs(models.Model):
     content = models.TextField()
-    image = models.URLField()
+    image = models.ImageField(upload_to="blog/aboutus")
+
+    @property
+    def formeted_image(self):
+        if self.image.__str__().startswith(('http','https')):
+            image = self.image
+            
+        else:
+            image = self.image.url
+            print(self.image)
+        return image
+
+class Contact(models.Model):
+    name = models.CharField(max_length=30,null=False)
+    email = models.EmailField(null=False)
+    message = models.TextField(null=False)

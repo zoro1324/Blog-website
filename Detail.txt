@@ -1,0 +1,25 @@
+
+🌐 Django Blog Website
+This is a personal project I built while learning Django. The goal of this project was to explore Django's capabilities in building a dynamic blog website, including authentication, database management, and CRUD operations.
+
+🚧 Note: This project has not been officially launched yet. However, if you'd like to check it out, you can run it locally by following the instructions below.
+
+🔧 Tech Stack
+Frontend: Bootstrap, HTML, CSS
+Backend: Django
+Database: MySQL
+
+🎯 Features
+✔️ User authentication (Sign up, Login, Logout)
+✔️ Create, Edit, and Delete blog posts
+✔️ Responsive UI using Bootstrap
+✔️ Comment system (Planned for future updates)
+
+🛠️ Installation & Setup
+    If you like to view my project follow the instructions given in Installation File
+
+🤝 Contributions & Feedback
+Since this is a learning project, I appreciate any feedback or suggestions. Feel free to fork, explore, and experiment with it!
+
+📬 Contact
+If you have any questions, feel free to reach out via GitHub Issues or connect with me on [LinkedIn/Twitter].

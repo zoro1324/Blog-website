@@ -1,0 +1,44 @@
+🔧 Important Setup Steps
+✅ 1. Ensure All Required Modules Are Installed
+If you encounter a "Module not found" error, kindly install the missing module using:
+➡️ pip install module_name
+
+✅ 2. Update Database Configuration
+📌 Open settings.py and update the DATABASES section with your MySQL credentials.
+
+✅ 3. Configure Mail Trap
+📌 Create or use your Mail Trap ID and Password, then update the EMAIL SETTINGS in settings.py.
+
+✅ 4. Apply Migrations
+📌 First, make migrations, then apply them:
+➡️ Run python manage.py makemigrations
+➡️ Then python manage.py migrate
+
+✅ 5. Populate Categories & About Us Section
+📌 Populate essential data before running the server:
+➡️ python manage.py populate_categories
+➡️ python manage.py populate_aboutus
+
+✅ 6. Create a Superuser (Admin Access)
+📌 Generate an admin user by running:
+➡️ python manage.py createsuperuser
+This will prompt you to enter a username, email, and password.
+
+✅ 7. Run the Development Server
+📌 Start your server by running:
+➡️ python manage.py runserver
+🌍 Visit http://127.0.0.1:8000/ in your browser.
+🚨 At this stage, you won’t see any blog posts—don’t panic! Follow the next steps.
+
+✅ 8. Register & Create Users
+📌 Use the Register option on the website to create at least 3 users.
+
+✅ 9. Populate Blog Posts
+📌 Close the server connection and populate posts by running:
+➡️ python manage.py populate_posts
+📌 This will generate 20 default blog posts.
+
+✅ 10. Restart the Server
+📌 Once done, restart the server:
+➡️ python manage.py runserver
+🎉 Now, you will see default blog posts, and you can create more by logging in! 🚀

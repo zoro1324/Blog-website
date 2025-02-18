@@ -8,14 +8,14 @@
         <div class="col">
             <h2 >Latest Posts</h2>
         </div>
-        <div class="col-3">
+        {% comment %} <div class="col-3">
             <div class="input-group">
                 <input type="text" class="form-control" placeholder="Search..." aria-label="Search">
                 <button class="btn btn-outline-light btn-primary " type="button" id="button-search">
                   <i class="bi bi-search"></i> <!-- Bootstrap Icons -->
                 </button>
               </div>
-        </div>
+        </div> {% endcomment %}
     </div>
     <div class="row m-3">
     {% for post in page_obj %}

@@ -1,13 +1,17 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
-from .models import Catagory, Post
+from .models import Catagory, Post,Contact
 
 
-class ContactForm(forms.Form):
+class ContactForm(forms.ModelForm):
     name = forms.CharField(label="Name",max_length=30,required=True)
     email = forms.EmailField(label="Email",required=True)
     message = forms.CharField(label="message",max_length=300,required=True)
+
+    class Meta:
+        model = Contact
+        fields = ['name','email','message']
 
 
 class RegisterForm(forms.ModelForm):
@@ -73,8 +77,8 @@ class ResetPasswordForm(forms.Form):
 
 
 class NewPostForms(forms.ModelForm):
-    title = forms.CharField(max_length=30,required=True)
-    content = forms.CharField(required=True)
+    title = forms.CharField(max_length=100,required=True)
+    content = forms.CharField(required=True,max_length=3000)
     
     catagory = forms.ModelChoiceField(required=True,queryset=Catagory.objects.all())
     image = forms.ImageField(required=False) 
