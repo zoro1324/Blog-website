@@ -31,6 +31,8 @@ def index(request):
             query |= Q(title__icontains=term) | Q(catagory__catagory_name__icontains=term)
 
         posts = Post.objects.filter(is_published=True).filter(query)
+        if not posts:
+            messages.warning("No post found")
 
 
     else:
