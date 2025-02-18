@@ -15,7 +15,7 @@ from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required,permission_required
 from django.utils.safestring import mark_safe
-
+from django.db.models import Q
 # Create your views here.
 
 def rediret_to_index(request):
@@ -24,12 +24,14 @@ def rediret_to_index(request):
 def index(request):
 
     search = request.GET.get('query','')
+    search_terms = search.split()
     if search:
-        
-        posts = Post.objects.filter(is_published = True ,title__icontains = search,catagory__catagory_name = search)
-        if not posts:
-            messages.warning(request,"No such Post Exist")
-            print("IF")
+        query = Q()
+        for term in search_terms:
+            query |= Q(title__icontains=term) | Q(catagory__catagory_name__icontains=term)
+
+        posts = Post.objects.filter(is_published=True).filter(query)
+
 
     else:
         posts = Post.objects.filter(is_published = True)
