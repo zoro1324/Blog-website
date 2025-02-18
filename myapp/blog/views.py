@@ -32,7 +32,7 @@ def index(request):
 
         posts = Post.objects.filter(is_published=True).filter(query)
         if not posts:
-            messages.warning("No post found")
+            messages.warning(request,"No post found")
 
 
     else:
