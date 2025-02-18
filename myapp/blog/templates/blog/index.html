@@ -35,12 +35,8 @@
                         <p class="card-text">{{post.content |truncatechars:30}}</p>
                         <div class="d-flex justify-content-between">
                             <a href="{% url "blog:detail" slug=post.slug %}">Read More</a>
-                            <a class="text-decoration-none text-dark fw-bold" href="#">
-                                {%for catagory in Catagories%}
-                                    {% if post.catagory_id == catagory.id %}
-                                    {{catagory.catagories}}
-                                    {%endif%}
-                                {%endfor%}
+                            <a class="text-decoration-none text-dark fw-bold" href="?query={{post.catagory}}">
+                                {{post.catagory}}
                             </a>
                         </div>
                     </div>

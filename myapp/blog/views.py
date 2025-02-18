@@ -26,7 +26,7 @@ def index(request):
     search = request.GET.get('query','')
     if search:
         
-        posts = Post.objects.filter(is_published = True,title__icontains = search)
+        posts = Post.objects.filter(is_published = True ,title__icontains = search,catagory__catagory_name = search)
         if not posts:
             messages.warning(request,"No such Post Exist")
             print("IF")
